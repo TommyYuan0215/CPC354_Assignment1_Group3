@@ -1,0 +1,466 @@
+body {
+    background-image: url("bg.jpg");
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    white-space: nowrap;
+}
+
+.tv_ident {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-wrap: wrap;
+}
+
+canvas {
+    width: 720px; 
+    height: 720px;
+    box-sizing: border-box;
+    visibility: visible;
+    border: 1vh solid black;
+    background-color: rgb(30, 30, 30);
+}
+
+.properties_box {
+    background-color: rgba(255, 255, 255, 0.37);
+    text-align: left;
+    padding: 15px;
+    min-width: 280px;
+    overflow: none;
+    margin-left: 20px;
+}
+
+.properties_box h2 {
+    text-align: center;
+}
+
+@media screen and (max-width: 1300px) {
+    .properties_box {
+        margin-top: 20px;
+        margin-left: 0;
+    }
+
+    canvas {
+        width: 540px; /* Adjust the width for larger screens */
+        height: 540px;
+    }
+}
+
+.title {
+    position: relative;
+    top: 5px;
+    padding: 8px 6px;
+    color: #000000;
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 15px;
+    font-weight: 200;
+}
+
+.gasket_ani_box {
+    display:flex; 
+    flex-direction: row;
+    justify-content: center;
+}
+
+.gasket_box {
+    float: left;
+    min-width: 280px;
+    width: 45%;
+    padding: 10px;
+}
+
+.anibox {
+    float: right;
+    min-width: 280px;
+    width: 45%;
+    padding: 10px;
+}
+
+#speedbox, #colorbox, #gasket_sub_scale, #rotationbox, #axisbox, #transitionbox {
+    background-color: rgba(255, 255, 255, 0.363);
+    /* background-color: #a7a7a7; */
+    padding: 5%;
+    border-radius: 10px;
+}
+
+/*speed control function*/
+.speed_slider {
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    width: 100%; /* Full-width */
+    height: 15px; /* Specified height */
+    border-radius: 5px;  
+    background: #a4a4a4; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+}
+
+  /* Mouse-over effects */
+.speed_slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.speed_slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    border-radius: 50%;
+    background: #535db3; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+}
+
+.speed_slider::-moz-range-thumb {
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    border-radius: 50%;
+    background: #535db3; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+}
+
+.speed_slider_bubble {
+    float: right;
+    background: #535db3;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 40px;
+}
+
+
+
+/*color picker function*/
+.inner_colorbox {
+    margin-top: 5%;
+    margin-left: 0;
+}
+
+.colorpicker {
+    width: 45px;
+    height: 45px;
+    border: none;
+    background: none;
+    margin-left: 3.25%;
+    margin-right: 3.25%;
+    margin-bottom: 2%;
+    position: relative;
+}
+
+.colorpicker:hover {
+    border-radius: 50%;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.colorpicker::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.colorpicker::-webkit-color-swatch {
+    border-radius: 50%;
+}
+
+.colorlabel {
+    font-size: 14px;
+	padding-left: 18px;
+    padding-right: 12px;
+}
+
+/*Subdivision & Scale Plus Minus button*/
+
+table {
+    width: 100%;
+}
+
+.pm {
+    background: #535db3;
+    border: 0px;
+    width: 45px;
+    height: 40px;
+    border-radius: 30px;
+}
+
+.pm:disabled {
+    opacity: 0.7;
+}
+
+#subdiv_add, #subdiv_sub, #scale_add, #scale_sub, #scaleF_sub, #scaleF_add{
+    font-size: 24px;
+    color: white;
+}
+
+#scale_add:hover, #scale_sub:hover, 
+#subdiv_add:hover, #subdiv_sub:hover,
+#scaleF_sub:hover, #scaleF_add:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+.displayTxtBox {
+    background-color: #c4c4c4;
+    color: black;
+    text-align: center;
+	width: 80px;
+	height: 30px;
+	font-size: 16px;
+	border: 1px solid #ccc;
+	/* margin-top: 5px; */
+
+}
+
+.title2 {
+    position: relative;
+    top: 5px;
+    padding: 8px 6px;
+    color: black;
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 15px;
+}
+
+/*play pause button*/
+.btn_play_restart {
+    text-align: center;
+}
+
+#play-button {
+    border-radius: 20px;
+    width: 90%;
+    height: 40px;
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #ffffff;
+    background-color: #04AA6D;
+    cursor: pointer;
+    border: 0;
+    padding: 0.25em 0.5em;
+    /* box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px; */
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+#play-button:active {
+	box-shadow: 0px 0px 0px 0px;
+	top: 5px;
+	left: 5px;
+}
+
+/*restart button*/
+#restart-button {
+    border-radius: 20px;
+	width: 90%;
+	height: 40px;
+	font-family: "Open Sans", sans-serif;
+	font-size: 16px;
+	letter-spacing: 2px;
+	text-decoration: none;
+	text-transform: uppercase;
+	color: #000;
+	cursor: pointer;
+	border: 0;
+	padding: 0.25em 0.5em;
+	/* box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px; */
+	position: relative;
+	user-select: none;
+	-webkit-user-select: none;
+	touch-action: manipulation;
+}
+
+#restart-button:enabled:active {
+	box-shadow: 0px 0px 0px 0px;
+	top: 5px;
+	left: 5px;
+}
+
+#restart-button:disabled {
+    opacity: 0.7;
+}
+
+#play-button:hover, #restart-button:hover {
+    transform: scale(1.1);
+}
+
+
+/*animation control properties*/
+#anibox {
+    margin: 8px;
+}
+
+.anifont {
+    font-size: 14px;
+}
+
+.rotation_slider {
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    width: 100%; /* Full-width */
+    height: 15px; /* Specified height */
+    border-radius: 5px;  
+    background: #a4a4a4; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+}
+
+.rotation_slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    border-radius: 50%;
+    background: #535db3; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+}
+
+.rotation_slider::-moz-range-thumb {
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    border-radius: 50%;
+    background: #535db3; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+}
+
+.rotation_slider_bubble {
+    float: right;
+    background: #535db3;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 40px;
+}
+
+.rotation_slider:hover {
+    opacity: 1;
+}
+
+.rotation_slider:disabled, .speed_slider:disabled {
+    background-color: rgb(74, 74, 74);
+}
+
+#rotateX,
+#rotateY {
+    left: 20px;
+    top: 13px;
+	appearance: none;
+    background-color: #dfe1e4;
+    border-radius: 72px;
+    border-style: none;
+    position: relative;
+    height: 20px;
+    width: 40px;
+    cursor: pointer;
+}
+
+#rotateX::before,
+#rotateY::before {
+	bottom: -6px;
+    content: "";
+    left: -6px;
+    position: absolute;
+    right: -6px;
+    top: -6px;
+}
+
+#rotateX,
+#rotateY,
+#rotateX::after,
+#rotateY::after {
+    transition: all 100ms ease-out;
+  }
+
+#rotateX::after,
+#rotateY::after  {
+    background-color: #fff;
+    border-radius: 50%;
+    content: "";
+    height: 14px;
+    left: 3px;
+    position: absolute;
+    top: 3px;
+    width: 14px;
+  }
+
+#rotateX input[type=checkbox],#rotateY input[type=checkbox],#rotateZ input[type=checkbox] {
+    cursor: default;
+  }
+
+#rotateX:hover,
+#rotateY:hover {
+    background-color: #c9cbcd;
+    transition-duration: 0s;
+  }
+
+#rotateX:checked,#rotateY:checked {
+    background-color: #6e79d6;
+  }
+
+#rotateX:checked::after,#rotateY:checked::after {
+    background-color: #fff;
+    left: 22px;
+  }
+
+#rotateX :focus:not(.focus-visible) {
+    outline: 0;
+  }
+
+#rotateY :focus:not(.focus-visible) {
+    outline: 0;
+  }
+
+
+#rotateX:checked:hover{
+    background-color: #535db3;
+  }
+
+#rotateY:checked:hover{
+    background-color: #535db3;
+}
+
+#transMode {
+  background-color: #d3d3d3;
+  color: black;
+  width: 100%;
+  height: 2em;
+  border: none;
+  font-size: 16px;
+  text-align: center;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+  -webkit-appearance: button;
+  appearance: button;
+  outline: none;
+  cursor: pointer;
+}
+
+#transMode[open] {
+	z-index: 1;
+}
+
+#transMode:hover{
+	background: #c5c5c5;
+}
+
+
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border: none;
+}
+
+tr, td {
+    border: none;
+    padding: 10px;
+    text-align: center;
+}
+
+        

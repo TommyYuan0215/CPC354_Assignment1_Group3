@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>CPC354 Assignment 1 - 3D Sierpinski Gasket TV Ident</title>
+
+    <script id="vertex-shader" type="x-shader/x-vertex">
+    attribute vec4 vPosition;
+    attribute vec4 vColor;
+    varying vec4 fColor;
+    uniform vec3 theta;
+    uniform float scale;
+    uniform vec2 trans;
+
+    void main() {
+        vec3 angles = radians(theta);
+        vec3 c = cos(angles);
+        vec3 s = sin(angles);
+
+        mat4 rx = mat4(1.0, 0.0, 0.0, 0.0,
+                       0.0, c.x, s.x, 0.0,
+                       0.0, -s.x, c.x, 0.0,
+                       0.0, 0.0, 0.0, 1.0);
+
+        mat4 ry = mat4(c.y, 0.0, -s.y, 0.0,
+                       0.0, 1.0, 0.0, 0.0,
+                       s.y, 0.0, c.y, 0.0,
+                       0.0, 0.0, 0.0, 1.0);
+
+        mat4 rz = mat4(c.z, s.z, 0.0, 0.0,
+                       -s.z, c.z, 0.0, 0.0,
+                       0.0, 0.0, 1.0, 0.0,
+                       0.0, 0.0, 0.0, 1.0);
+        
+        mat4 rotationMat = rz * ry * rx;
+
+        mat4 scalingMat = mat4(scale, 0.0, 0.0, 0.0,
+                               0.0, scale, 0.0, 0.0,
+                               0.0, 0.0, scale, 0.0,
+                               0.0, 0.0, 0.0, 1.0);
+
+        mat4 transMat = mat4(1.0, 0.0, 0.0, 0.0,
+                             0.0, 1.0, 0.0, 0.0,
+                             0.0, 0.0, 1.0, 0.0,
+                             trans[0], trans[1], 0.0, 1.0);
+
+        gl_Position = transMat * scalingMat * rotationMat * vPosition;
+        fColor = vColor;
+    }
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+    precision mediump float;
+    varying vec4 fColor;
+
+    void main() {
+        gl_FragColor = fColor;
+    }
+    </script>
+    <script type="text/javascript" src="Common/webgl-utils.js"></script> <!-- WebGL utilities for setting up WebGL-->
+    <script type="text/javascript" src="Common/initShaders.js"></script> <!-- contains JS and WebGL coding for reading, compiling and linking the shaders -->
+    <script type="text/javascript" src="Common/MV.js"></script> <!-- Matrix-vertex package -->
+    <script type="text/javascript" src="tv_ident_js.js"></script>
+    <link rel="stylesheet" href="tv_ident_css.css">
+    <link rel="icon" href="tv_icon.jpg" type="image/icon type">
+
+</head>
+
+<body>
+    <div class="tv_ident">
+        <canvas id="gl-canvas" width="512" height="512">
+            Oops ... your browser doesn't support the HTML5 canvas element
+        </canvas>
+
+        <div class="properties_box">
+            <h2>TV Ident Properties Box</h2>
+            <hr>
+            <div class="gasket_ani_box">
+            <div class="gasket_box">
+                <label class="title2">Gasket Properties</label>
+                <br><br>    
+                <div id="speedbox">
+                    <label for="speed" class="title">Speed(%) :</label><output class="speed_slider_bubble textbox" id="speed_output" name="speed"></output>
+                    <br><br>
+                    <input type="range" id="speed" class="speed_slider settings" name="speed" min="100" max="900" step="100" value="200">        
+                </div>
+
+                <br>
+
+                <div id="colorbox">
+                    <label for="colorpicker" class="title">Colour Picker:</label>
+                    <div class="inner_colorbox">
+                        <input type="color" id="leftcolor" class="colorpicker" name="leftcolor" value="#FF0000">
+                        <input type="color" id="bottomcolor" class="colorpicker" name="bottomcolor" value="#00FF0E">
+                        <input type="color" id="rightcolor" class="colorpicker" name="rightcolor" value="#FFF400">
+                        <input type="color" id="backcolor" class="colorpicker" name="backcolor" value="#0032FF">
+                    </div>
+                    <div class="inner_colorbox">
+                        <label for="leftcolor" class="colorlabel">Left</label>
+                        <label for="bottomcolor" class="colorlabel">Bottom</label>
+                        <label for="rightcolor" class="colorlabel">Right</label>
+                        <label for="backcolor" class="colorlabel">Back</label>
+                    </div>
+                </div>
+                <br>
+                <table id="gasket_sub_scale">
+                    <tr>
+                        <td></td>
+                        <td><label for="division" class="title">Subdivisions</label></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><input type="button" class="pm settings" id="subdiv_sub" value="-" name="division"></td>
+                        <td><input type="text" class="displayTxtBox textbox settingsBtn" id="subdiv_textbox" name="division" value="3" readonly><br></td>
+                        <td><input type="button" class="pm settings" id="subdiv_add" value="+" name="division"></td>  
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><label for="scale" class="title">Scale</label></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><input type="button" class="pm settings" id="scale_sub" value="-" name="scale"></td>
+                        <td><input type="text" class="displayTxtBox textbox" id="scale_textbox" name="scale" value="1" readonly><br></td>
+                        <td><input type="button" class="pm settings" id="scale_add" value="+" name="scale"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><label for="scale" class="title">Scale Factor</label></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><input type="button" class="pm settings" id="scaleF_sub" value="-" name="scaleF"></td>
+                        <td><input type="text" class="displayTxtBox textbox" id="scaleF_textbox" name="scaleF" value="3" readonly><br></td>
+                        <td><input type="button" class="pm settings" id="scaleF_add" value="+" name="scaleF"></td>
+                    </tr>
+                </table>
+                <br><br>
+            </div>
+
+            <div class="anibox">
+                <label class="title2">Animation Properties</label>
+                <br>
+                <br>
+				<div id="rotationbox">
+					<label for="degree" class="title">Rotation Angle (°)</label><output class="rotation_slider_bubble" id="rotation_output"></output><br><br>
+					<input type="range" id="degree" class="rotation_slider settings" name="degree" min="0" max="360" step="10" value="180">		
+				</div>
+                <br>
+                <div id="axisbox">
+                    <label for="rotateX" class="title">Rotation about x-axis :</label>
+                    <input type="checkbox" id="rotateX" name="rotateX" /><br><br>
+    
+                    <label for="rotateY" class="title">Rotation about y-axis :</label>
+                    <input type="checkbox" id="rotateY" name="rotateY" /><br><br>
+                </div>
+                <br>
+                <div id="transitionbox">
+                    <label for="transMode" class="title">Transition Style</label><br><br>
+                    <select id="transMode" class="settings" name="transMode">
+                        <option value="0">Random</option>
+                        <option value="1">Rotating</option>
+                        <option value="2">Dancing</option>
+                        <option value="3">Flipping</option>
+                        <option value="4">Paralysing</option>
+                    </select><br>
+                </div>
+                <hr>
+                <div class="btn_play_restart">
+                    <input type="button" id="play-button" value="Play"><br><br>
+                    <input type="button" id="restart-button" value="Restart">
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</body>
+
+</html>
